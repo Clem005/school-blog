@@ -50,7 +50,7 @@ async function init() {
         
         // 2. CALCULATE RUNWAY
         // We set the height of the page based on the number of articles.
-        const totalHeight = (globalPosts.length * 120) + 120; 
+        const totalHeight = (globalPosts.length * 140) + 250; 
         scrollTrack.style.height = `${totalHeight}vh`;
 
         // 3. START ENGINES
@@ -112,12 +112,12 @@ function init3DScroll() {
 
         cards.forEach((card, i) => {
             // Spacing logic: cards appear sequentially
-            const spacing = vh * 1.5; 
+            const spacing = vh * 1.3; 
             const cardStart = (vh * 1.5) + (i * spacing);
             const progress = (scrolled - cardStart) / vh;
 
             // Z-Axis Transformation
-            const z = (progress * 2800) - 1000; 
+            const z = (progress * 2800) - 800; 
             
             // Visual modifiers
             const opacity = 1 - (progress * 1.3);
@@ -211,6 +211,7 @@ function initModalLogic() {
 // BOOT SYSTEM
 
 window.onload = init;
+
 
 
 
