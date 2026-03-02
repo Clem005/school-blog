@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLEMENT | Creative Technologist & Strategist</title>
+    <!-- Link to your style.css -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 1. FULL-SCREEN VIDEO BANNER -->
+    <!-- The CSS will ensure the video fits exactly 100vh without stretching -->
+    <header class="banner">
+        <div class="video-frame">
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="banner-video.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <div class="header-content">
+            <h1 class="main-title">CLEMENT</h1>
+            <p class="sub-title">IFS 740: Strategic Information Systems</p>
+        </div>
+        
+        <!-- Animated Bouncing Scroll Indicator -->
+        <div class="scroll-hint">
+            <span class="scroll-label">EXPLORE ARCHIVE</span>
+            <div class="arrow-down">↓</div>
+        </div>
+    </header>
+
+    <!-- 2. PERSONAL HISTORY (Hard-coded) -->
+    <section class="history-block">
+        <div class="content-wrapper">
+            <div class="history-header">
+                <span class="index-number">01 // HISTORY</span>
+                <h2 class="serif-title">Architecting Digital Narratives.</h2>
+            </div>
+            <div class="history-grid">
+                <div class="grid-col">
+                    <p>My journey in technology is defined by the intersection of data integrity and creative execution. With a deep focus on Strategic Information Systems (IFS 740), I examine how information flows determine the success of modern enterprises.</p>
+                </div>
+                <div class="grid-col">
+                    <p>From legacy hardware architectures to modern browser-based 3D engines, I treat every project as a "Practical Application" of theory. This journal is a curated collection of my research into the future of the digital frontier.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. THE 3D KINETIC BLOG FEED -->
+    <!-- The JS will calculate the height of 'scroll-track' dynamically -->
+    <main class="scroll-track">
+        <div class="stage-3d">
+            <div id="blog-feed" class="engine-3d">
+                <!-- 14 Articles will be injected here by main.js in Offline Mode -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 4. ARTICLE EXPANSION MODAL (YouTube + Typewriter) -->
+    <div id="article-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="close-modal" id="close-btn">&times; CLOSE ARCHIVE</button>
+            <div class="modal-content">
+                
+                <!-- YouTube Video Container -->
+                <div id="modal-media-container"></div> 
+                
+                <div class="modal-text">
+                    <span id="modal-category" class="tag"></span>
+                    <h1 id="modal-title" class="serif-title"></h1>
+                    
+                    <!-- The typewriter animation targets this div -->
+                    <div id="modal-body" class="full-article-text"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. EDITORIAL FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <div class="brand-footer">
+                <h2 class="footer-logo">CLEMENT</h2>
+                <p>Creative Technologist. Information Strategist. Researcher.</p>
+            </div>
+            <nav class="footer-nav">
+                <div class="nav-group">
+                    <span>CONNECT</span>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">GitHub</a>
+                </div>
+                <div class="nav-group">
+                    <span>RESOURCES</span>
+                    <a href="#">IFS 740 Archive</a>
+                    <a href="#">Modern Systems</a>
+                </div>
+            </nav>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 CLEMENT DIGITAL JOURNAL. ALL RIGHTS RESERVED.</p>
+            <p>BUILT FOR THE FUTURE OF INFORMATION STRATEGY.</p>
+        </div>
+    </footer>
+
+    <!-- Link to your main.js -->
+    <script src="main.js"></script>
+</body>
+</html>
