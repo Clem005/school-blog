@@ -113,7 +113,7 @@ function init3DScroll() {
         cards.forEach((card, i) => {
             // Spacing logic: cards appear sequentially
             const spacing = vh * 1.3; 
-            const cardStart = (vh * 1.5) + (i * spacing);
+            const cardStart = (vh * 1.0) + (i * spacing);
             const progress = (scrolled - cardStart) / vh;
 
             // Z-Axis Transformation
@@ -209,4 +209,5 @@ function initModalLogic() {
 }
 
 // BOOT SYSTEM
+
 window.onload = init;
