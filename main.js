@@ -6,8 +6,10 @@
 // 1. THE MANIFEST
 // Add every filename you create in the /posts/ folder here.
 const POST_FILES = [
-    "post1.json",
-    "introduction-and-strategic-framing-of-is.json"
+    "week1.json",
+    "week2.json",
+    "week3.json",
+    "week4.json"
 
 ];
 
@@ -211,6 +213,7 @@ function initModalLogic() {
 // BOOT SYSTEM
 
 window.onload = init;
+
 
 
 
