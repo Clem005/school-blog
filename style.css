@@ -1,12 +1,11 @@
-/* --- 1. CORE ARCHITECTURE & TYPOGRAPHY --- */
+/* --- 1. CORE ARCHITECTURE --- */
 :root {
-    --bg: #050505;
-    --card-bg: #0c0c0c; /* Solid, heavy black */
+    --bg: #000000;
+    --card-bg: #0c0c0c; /* Solid, heavy black for contrast */
     --text: #ffffff;
-    --text-muted: #808080;
-    --accent: #ffffff;
+    --text-muted: #777;
     --font: "Times New Roman", Times, serif;
-    --transition: cubic-bezier(0.16, 1, 0.3, 1);
+    --accent: #ffffff;
 }
 
 * {
@@ -48,14 +47,13 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    min-width: 120%;
-    min-height: 120%;
+    min-width: 100%;
+    min-height: 100%;
     width: auto;
     height: auto;
-    transform: translate(-50%, -50%) scale(0.7);
-    object-fit: cover; /* Fixes stretching */
-    filter: brightness(0.25) grayscale(0.3); /* High-end grayscale */
-    z-index: 1
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* Prevents stretching */
+    filter: brightness(0.4) grayscale(1);
 }
 
 .header-content {
@@ -65,12 +63,11 @@ body {
 }
 
 .main-title {
-    font-size: clamp(3rem, 10vw, 7.5rem); /* Toned down size */
+    font-size: clamp(3rem, 10vw, 7.5rem);
     font-weight: 400;
     letter-spacing: -2px;
     text-transform: uppercase;
     opacity: 0.95;
-    text-shadow: none; /* Removed heavy glow for elegance */
 }
 
 .sub-title {
@@ -91,8 +88,8 @@ body {
 }
 
 .arrow-down {
-    font-size: 5rem;
-    color: #b9b5b5;
+    font-size: 1.5rem;
+    color: #444;
     animation: bounce 2s infinite ease-in-out;
 }
 
@@ -101,9 +98,9 @@ body {
     50% { transform: translateY(-10px); }
 }
 
-/* --- 3. HISTORY SECTION (THE BRIDGE) --- */
+/* --- 3. HISTORY SECTION (TIGHTENED SPACING) --- */
 .history-block {
-    padding: 100px 10% 50px;
+    padding: 120px 10% 40px; /* Reduced bottom padding */
     background: #000;
     position: relative;
     z-index: 10;
@@ -113,7 +110,7 @@ body {
     font-size: clamp(2rem, 5vw, 4.5rem);
     font-weight: 400;
     line-height: 1.1;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .index-number {
@@ -127,7 +124,7 @@ body {
 .history-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: 60px;
 }
 
 .grid-col p {
@@ -136,12 +133,11 @@ body {
     color: #999;
 }
 
-/* --- 4. 3D KINETIC ENGINE (THE VISIBILITY FIX) --- */
+/* --- 4. 3D KINETIC ENGINE (SPACE REDUCTION FIX) --- */
 .scroll-track {
     position: relative;
-    /* Height is set dynamically by JS to posts.length * 130vh */
+    margin-top: -80px; /* Pulls cards up to overlap with history end */
     background: #000;
-    margin-top : -50px;
 }
 
 .stage-3d {
@@ -149,9 +145,9 @@ body {
     top: 0;
     height: 100vh;
     width: 100%;
-    perspective: 1000px; /* Lower = closer/heavier cards */
+    perspective: 900px; /* Lower = closer/more visible cards */
     overflow: hidden;
-    pointer-events: none; /* Allows scrolling to pass through */
+    pointer-events: none;
 }
 
 .engine-3d {
@@ -159,13 +155,12 @@ body {
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    pointer-events: none;
 }
 
 .blog-card {
     position: absolute;
-    width: 520px; /* Increased Width */
-    height: 680px; /* Increased Height */
+    width: 520px;
+    height: 680px;
     top: 50%;
     left: 50%;
     margin-top: -340px;
@@ -173,12 +168,12 @@ body {
     background: var(--card-bg);
     border: 1px solid #222;
     padding: 50px;
-    display: none; /* JS toggles to flex */
+    display: none; /* JS will toggle to flex */
     flex-direction: column;
     justify-content: flex-end;
     transform-style: preserve-3d;
     cursor: pointer;
-    pointer-events: all; /* Critical for clicking */
+    pointer-events: all;
     box-shadow: 0 50px 100px rgba(0,0,0,0.9);
     transition: border-color 0.3s;
 }
@@ -207,11 +202,11 @@ body {
 .blog-card p {
     font-style: italic;
     font-size: 1rem;
-    color: #666;
+    color: #555;
     line-height: 1.4;
 }
 
-/* --- 5. MODAL & YOUTUBE PLAYER --- */
+/* --- 5. MODAL & YOUTUBE (CLEAN INSTANT TEXT) --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -249,7 +244,6 @@ body {
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 40px;
-    z-index: 100;
 }
 
 #modal-media-container {
@@ -275,22 +269,10 @@ body {
     line-height: 1.8;
     color: #aaa;
     margin-top: 30px;
+    white-space: pre-wrap; /* Maintains your paragraph spacing */
 }
 
-/* Typewriter Cursor */
-.typewriter-cursor {
-    display: inline-block;
-    width: 10px;
-    height: 1.4rem;
-    background: #fff;
-    margin-left: 5px;
-    animation: cursorBlink 0.8s infinite;
-    vertical-align: middle;
-}
-
-@keyframes cursorBlink {
-    50% { opacity: 0; }
-}
+/* Typing animation and cursor classes removed for Instant Look */
 
 /* --- 6. FOOTER --- */
 .main-footer {
@@ -339,5 +321,4 @@ body {
     font-size: 0.6rem;
     color: #333;
     letter-spacing: 2px;
-
 }
