@@ -3,13 +3,6 @@
  * Master 3D Engine: Offline JSON-File Architecture
  */
 
-// 1. THE MANIFEST
-// Add every filename you create in the /posts/ folder here.
-const POST_FILES = [
-    "post1.json",
-    "introduction-and-strategic-framing-of-is.json"
-];
-
 let globalPosts = [];
 
 /**
@@ -24,7 +17,7 @@ function getYouTubeID(url) {
 
 /**
  * INITIALIZATION
- * Loads the JSON files and sets up the 3D World
+ * Reads manifest.json from /posts/ folder, then loads all JSON files listed in it
  */
 async function init() {
     console.log("System: Booting Archive...");
@@ -33,8 +26,15 @@ async function init() {
     const scrollTrack = document.querySelector('.scroll-track');
 
     try {
-        // Load every JSON file from the /posts/ folder
-        const loadPromises = POST_FILES.map(async (file) => {
+        // Step 1: Load the manifest to get the list of post filenames
+        const manifestResponse = await fetch('./posts/manifest.json');
+        if (!manifestResponse.ok) throw new Error('manifest.json not found in /posts/ folder');
+        const fileList = await manifestResponse.json();
+
+        console.log("System: Manifest loaded.", fileList);
+
+        // Step 2: Load every JSON file listed in the manifest
+        const loadPromises = fileList.map(async (file) => {
             const response = await fetch(`./posts/${file}`);
             if (!response.ok) throw new Error(`File not found: ${file}`);
             return await response.json();
@@ -45,10 +45,9 @@ async function init() {
 
         // 1. RENDER CARDS
         renderArticles(globalPosts);
-        
+
         // 2. CALCULATE RUNWAY
-        // We set the height of the page based on the number of articles.
-        const totalHeight = (globalPosts.length * 140) + 250; 
+        const totalHeight = (globalPosts.length * 140) + 250;
         scrollTrack.style.height = `${totalHeight}vh`;
 
         // 3. START ENGINES
@@ -59,7 +58,7 @@ async function init() {
         console.error("FATAL ERROR:", err.message);
         feed.innerHTML = `<p style="color:white; text-align:center; padding:100px; font-family:serif;">
             [ ERROR: ARCHIVE ACCESS DENIED ] <br><br>
-            Ensure you are using VS Code 'Live Server' and that your JSON files exist in the /posts/ folder.
+            ${err.message}
         </p>`;
     }
 }
@@ -69,11 +68,11 @@ async function init() {
  */
 function renderArticles(posts) {
     const feed = document.getElementById('blog-feed');
-    
+
     feed.innerHTML = posts.map((post, i) => {
         const videoId = getYouTubeID(post.videoUrl);
         const thumbUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-        
+
         return `
             <div class="blog-card" data-index="${i}">
                 <img src="${thumbUrl}" alt="thumbnail">
@@ -103,21 +102,18 @@ function renderArticles(posts) {
  */
 function init3DScroll() {
     const cards = document.querySelectorAll('.blog-card');
-    
+
     window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
         const vh = window.innerHeight;
 
         cards.forEach((card, i) => {
-            // Spacing logic: cards appear sequentially
-            const spacing = vh * 1.3; 
+            const spacing = vh * 1.3;
             const cardStart = (vh * 1.5) + (i * spacing);
             const progress = (scrolled - cardStart) / vh;
 
-            // Z-Axis Transformation
-            const z = (progress * 2800) - 800; 
-            
-            // Visual modifiers
+            const z = (progress * 2800) - 800;
+
             const opacity = 1 - (progress * 1.3);
             const rotateY = progress * 25;
             const xDrift = Math.sin(progress * 2) * 40;
@@ -126,8 +122,7 @@ function init3DScroll() {
                 card.style.display = 'flex';
                 card.style.opacity = opacity > 0 ? opacity : 0;
                 card.style.transform = `translate3d(${xDrift}px, 0, ${z}px) rotateY(${rotateY}deg)`;
-                
-                // Depth of field blur
+
                 const blurValue = Math.abs(progress) > 0.6 ? (Math.abs(progress) * 8) : 0;
                 card.style.filter = `blur(${blurValue}px)`;
             } else {
@@ -144,14 +139,14 @@ function openArticle(post) {
     const modal = document.getElementById('article-modal');
     const bodyText = document.getElementById('modal-body');
     const mediaContainer = document.getElementById('modal-media-container');
-    
+
     bodyText.innerHTML = "";
 
     const videoId = getYouTubeID(post.videoUrl);
 
     document.getElementById('modal-title').innerText = post.title;
     document.getElementById('modal-category').innerText = post.category;
-    
+
     // Inject Video
     mediaContainer.innerHTML = `
         <iframe 
