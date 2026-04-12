@@ -8,11 +8,9 @@
 const POST_FILES = [
     "post1.json",
     "introduction-and-strategic-framing-of-is.json"
-
 ];
 
 let globalPosts = [];
-let typingTimer;
 
 /**
  * YouTube ID Extractor
@@ -125,7 +123,7 @@ function init3DScroll() {
             const xDrift = Math.sin(progress * 2) * 40;
 
             if (z > -2500 && z < 2000) {
-                card.style.display = 'flex'; // Ensure visible
+                card.style.display = 'flex';
                 card.style.opacity = opacity > 0 ? opacity : 0;
                 card.style.transform = `translate3d(${xDrift}px, 0, ${z}px) rotateY(${rotateY}deg)`;
                 
@@ -133,22 +131,21 @@ function init3DScroll() {
                 const blurValue = Math.abs(progress) > 0.6 ? (Math.abs(progress) * 8) : 0;
                 card.style.filter = `blur(${blurValue}px)`;
             } else {
-                card.style.display = 'none'; // Hide out-of-range for performance
+                card.style.display = 'none';
             }
         });
     });
 }
 
 /**
- * MODAL & TYPEWRITER ENGINE
+ * MODAL ENGINE
  */
 function openArticle(post) {
     const modal = document.getElementById('article-modal');
     const bodyText = document.getElementById('modal-body');
     const mediaContainer = document.getElementById('modal-media-container');
     
-    clearInterval(typingTimer);
-    bodyText.innerHTML = ""; 
+    bodyText.innerHTML = "";
 
     const videoId = getYouTubeID(post.videoUrl);
 
@@ -165,23 +162,10 @@ function openArticle(post) {
     `;
 
     modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = 'hidden';
 
-    // TYPEWRITER EFFECT
-    let charIndex = 0;
-    bodyText.innerHTML = '<span id="typing-content"></span><span class="typewriter-cursor"></span>';
-    const contentSpan = document.getElementById('typing-content');
-
-    typingTimer = setInterval(() => {
-        if (charIndex < post.content.length) {
-            contentSpan.innerHTML += post.content.charAt(charIndex);
-            charIndex++;
-            const container = document.querySelector('.modal-container');
-            container.scrollTop = container.scrollHeight;
-        } else {
-            clearInterval(typingTimer);
-        }
-    }, 18);
+    // Render content instantly
+    bodyText.textContent = post.content;
 }
 
 /**
@@ -193,9 +177,8 @@ function initModalLogic() {
 
     closeBtn.onclick = () => {
         modal.style.display = 'none';
-        document.getElementById('modal-media-container').innerHTML = ""; 
+        document.getElementById('modal-media-container').innerHTML = "";
         document.body.style.overflow = 'auto';
-        clearInterval(typingTimer);
     };
 
     window.onclick = (e) => {
@@ -203,15 +186,9 @@ function initModalLogic() {
             modal.style.display = 'none';
             document.getElementById('modal-media-container').innerHTML = "";
             document.body.style.overflow = 'auto';
-            clearInterval(typingTimer);
         }
     };
 }
 
 // BOOT SYSTEM
-
 window.onload = init;
-
-
-
-
