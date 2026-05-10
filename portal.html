@@ -7,135 +7,648 @@
     <style>
         :root {
             --bg: #050505;
+            --surface: #0a0a0a;
+            --surface-2: #0f0f0f;
+            --border: #1e1e1e;
+            --border-hover: #444;
             --text: #fff;
+            --text-muted: #555;
+            --text-dim: #888;
             --accent: #fff;
+            --green: #00ff88;
             --font: "Times New Roman", Times, serif;
+            --mono: "Courier New", Courier, monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: var(--bg); 
-            color: var(--text); 
-            font-family: var(--font); 
-            padding: 60px 10%; 
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .site-header {
+            border-bottom: 1px solid var(--border);
+            padding: 28px 60px;
+            display: flex;
+            align-items: baseline;
+            gap: 24px;
+        }
+        .site-header .label {
+            font-size: 0.6rem;
+            letter-spacing: 5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .site-header h1 {
+            font-size: 1.6rem;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+        }
+        .site-header .status {
+            margin-left: auto;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* ── LAYOUT ── */
+        .workspace {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            min-height: calc(100vh - 73px);
+        }
+
+        /* ── LEFT PANEL — metadata ── */
+        .meta-panel {
+            border-right: 1px solid var(--border);
+            padding: 40px 36px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 28px;
         }
 
-        .container { width: 100%; max-width: 800px; }
-        
-        header { border-bottom: 1px solid #222; padding-bottom: 20px; margin-bottom: 40px; }
-        .label { font-size: 0.7rem; letter-spacing: 4px; color: #555; text-transform: uppercase; }
-        h1 { font-size: 2.5rem; font-weight: 400; margin-top: 10px; }
-
-        form { display: flex; flex-direction: column; gap: 30px; }
-        .input-group { display: flex; flex-direction: column; gap: 10px; }
-        label { font-size: 0.9rem; color: #888; font-style: italic; }
-        
-        input, textarea {
-            background: #0a0a0a; border: 1px solid #222; color: #fff;
-            padding: 15px; font-family: var(--font); font-size: 1.1rem; outline: none;
+        .panel-label {
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: block;
         }
-        input:focus, textarea:focus { border-color: #555; }
-        textarea { min-height: 250px; line-height: 1.6; }
 
+        .field { display: flex; flex-direction: column; gap: 8px; }
+        .field label { font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
+
+        input[type="text"],
+        input[type="url"] {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 12px 14px;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            outline: none;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+        input:focus { border-color: var(--border-hover); }
+
+        /* Format toggle */
+        .format-toggle {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--border);
+        }
+        .format-toggle button {
+            flex: 1;
+            padding: 10px 8px;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            font-family: var(--font);
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            border-right: 1px solid var(--border);
+        }
+        .format-toggle button:last-child { border-right: none; }
+        .format-toggle button.active {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Generate button */
         .gen-btn {
-            background: #fff; color: #000; border: none; padding: 20px;
-            font-family: var(--font); font-weight: bold; letter-spacing: 2px;
-            cursor: pointer; transition: 0.3s;
+            margin-top: auto;
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 18px;
+            font-family: var(--font);
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
         }
         .gen-btn:hover { background: #ccc; }
 
-        /* Instructions Area */
-        .manifest-box {
-            margin-top: 50px; padding: 30px; background: #0a0a0a; border: 1px solid #111;
-            display: none; flex-direction: column; gap: 15px;
+        /* ── RIGHT PANEL — content editor ── */
+        .content-panel {
+            padding: 40px 52px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
-        .manifest-code { background: #000; padding: 15px; color: #00ff88; font-family: monospace; font-size: 0.9rem; }
+
+        .content-panel > .panel-label { margin-bottom: 20px; }
+
+        /* FORMAT A — simple textarea */
+        #format-a {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+        #format-a label { font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
+        #content-simple {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: #ccc;
+            padding: 20px;
+            font-family: var(--font);
+            font-size: 1rem;
+            line-height: 1.8;
+            outline: none;
+            resize: vertical;
+            min-height: 420px;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+        #content-simple:focus { border-color: var(--border-hover); }
+        .hint {
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* FORMAT B — block builder */
+        #format-b { display: none; flex-direction: column; gap: 16px; }
+
+        .blocks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 80px;
+        }
+
+        /* Individual block row */
+        .block-row {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+            animation: blockIn 0.2s ease;
+        }
+        @keyframes blockIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .block-row-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .block-type-badge {
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            min-width: 60px;
+        }
+        .block-type-badge.type-text    { color: #aaa; }
+        .block-type-badge.type-image   { color: #7eb8f7; }
+        .block-type-badge.type-quote   { color: #c8a96e; }
+        .block-type-badge.type-heading { color: #a78bfa; }
+
+        .block-row-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 6px;
+        }
+        .block-row-actions button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
+        }
+        .block-row-actions button:hover { border-color: #666; color: #fff; }
+        .block-row-actions .del-btn:hover { border-color: #c0392b; color: #c0392b; }
+
+        .block-row-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+
+        .block-textarea {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: #ccc;
+            font-family: var(--font);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            outline: none;
+            resize: none;
+            width: 100%;
+            padding-bottom: 8px;
+            min-height: 60px;
+            overflow: hidden;
+        }
+        .block-textarea:focus { border-bottom-color: #555; }
+
+        .block-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .block-input-row input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            color: #aaa;
+            font-family: var(--font);
+            font-size: 0.8rem;
+            outline: none;
+            padding: 4px 0;
+            flex: 1;
+            transition: border-color 0.15s;
+        }
+        .block-input-row input:focus { border-bottom-color: #555; }
+        .block-input-row label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Position selector */
+        .pos-selector {
+            display: flex;
+            gap: 4px;
+        }
+        .pos-selector button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            padding: 4px 8px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.15s;
+        }
+        .pos-selector button.active { background: #fff; color: #000; border-color: #fff; }
+
+        /* Add block buttons */
+        .add-block-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .add-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: var(--font);
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .add-btn:hover { border-color: #555; color: #fff; }
+
+        /* ── OUTPUT BOX ── */
+        .output-box {
+            display: none;
+            margin: 40px 52px;
+            padding: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            flex-direction: column;
+            gap: 16px;
+        }
+        .output-box.visible { display: flex; }
+        .output-box .panel-label { color: #fff; }
+        .output-step {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+        .output-step b { color: #aaa; font-weight: normal; font-style: italic; }
+        .manifest-code {
+            background: #000;
+            padding: 14px 18px;
+            color: var(--green);
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border: 1px solid #0a2a1a;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="label">Archive Generator // IFS 740</div>
-            <h1>Create New Entry</h1>
-        </header>
+<header class="site-header">
+    <span class="label">Archive Generator</span>
+    <h1>Create New Entry</h1>
+    <span class="status">IFS 740 // CLEMENT</span>
+</header>
 
-        <form id="generator-form">
-            <div class="input-group">
-                <label>Article Title</label>
-                <input type="text" id="title" placeholder="e.g. Information Strategy in 2024" required>
-            </div>
+<div class="workspace">
 
-            <div class="input-group">
-                <label>Category</label>
-                <input type="text" id="category" placeholder="e.g. RESEARCH / TECH" required>
-            </div>
+    <!-- ── LEFT: METADATA ── -->
+    <aside class="meta-panel">
+        <span class="panel-label">Entry Metadata</span>
 
-            <div class="input-group">
-                <label>YouTube Video URL</label>
-                <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." required>
-            </div>
-
-            <div class="input-group">
-                <label>Journal Content</label>
-                <textarea id="content" placeholder="Type your narrative here..." required></textarea>
-            </div>
-
-            <button type="submit" class="gen-btn">GENERATE JSON FILE</button>
-        </form>
-
-        <!-- Dynamic Instructions -->
-        <div id="manifest-box" class="manifest-box">
-            <p class="label" style="color:#fff">Next Steps:</p>
-            <p style="font-size: 0.9rem; color: #888;">1. The file has been downloaded. Move it into your <b>/posts/</b> folder.</p>
-            <p style="font-size: 0.9rem; color: #888;">2. Copy the line below and paste it into the <b>POST_FILES</b> array in your <b>main.js</b>:</p>
-            <div id="manifest-code" class="manifest-code"></div>
+        <div class="field">
+            <label>Article Title</label>
+            <input type="text" id="title" placeholder="e.g. Information Strategy in 2024" required>
         </div>
-    </div>
 
-    <script>
-        const form = document.getElementById('generator-form');
-        const manifestBox = document.getElementById('manifest-box');
-        const manifestCode = document.getElementById('manifest-code');
+        <div class="field">
+            <label>Category</label>
+            <input type="text" id="category" placeholder="e.g. RESEARCH / TECH" required>
+        </div>
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+        <div class="field">
+            <label>YouTube Video URL</label>
+            <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
+        </div>
 
-            const title = document.getElementById('title').value;
-            const category = document.getElementById('category').value;
-            const videoUrl = document.getElementById('videoUrl').value;
-            const content = document.getElementById('content').value;
+        <div class="field">
+            <span class="panel-label" style="margin-bottom:0">Content Format</span>
+            <div class="format-toggle">
+                <button id="btn-format-a" class="active" onclick="setFormat('a')">Simple</button>
+                <button id="btn-format-b" onclick="setFormat('b')">Rich Blocks</button>
+            </div>
+            <span class="hint" id="format-hint">Paragraphs separated by blank lines.</span>
+        </div>
 
-            // Create a filename "slug" from the title (e.g., "my-article.json")
-            const filename = title.toLowerCase().replace(/[^a-z0-9]/g, '-') + ".json";
+        <button class="gen-btn" onclick="generate()">Generate JSON File</button>
+    </aside>
 
-            const postData = {
-                title: title,
-                category: category,
-                videoUrl: videoUrl,
-                content: content
-            };
+    <!-- ── RIGHT: CONTENT EDITOR ── -->
+    <main class="content-panel">
+        <span class="panel-label">Content</span>
 
-            // 1. Create the Blob (The file content)
-            const jsonString = JSON.stringify(postData, null, 4);
-            const blob = new Blob([jsonString], { type: "application/json" });
-            
-            // 2. Trigger Download
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
+        <!-- FORMAT A -->
+        <div id="format-a">
+            <label>Journal Content
+                <span class="hint" style="margin-left:8px">Press Enter twice between paragraphs.</span>
+            </label>
+            <textarea id="content-simple" placeholder="Write your narrative here...&#10;&#10;Press Enter twice to start a new paragraph.&#10;&#10;Each double-blank-line becomes a new &lt;p&gt; in the article reader."></textarea>
+        </div>
 
-            // 3. Show Instructions
-            manifestBox.style.display = "flex";
-            manifestCode.innerText = `"${filename}",`;
-            
-            // Scroll to instructions
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        });
-    </script>
+        <!-- FORMAT B -->
+        <div id="format-b">
+            <div class="blocks-list" id="blocks-list"></div>
+
+            <div class="add-block-row">
+                <button class="add-btn" onclick="addBlock('text')">+ Text</button>
+                <button class="add-btn" onclick="addBlock('image')">+ Image</button>
+                <button class="add-btn" onclick="addBlock('quote')">+ Quote</button>
+                <button class="add-btn" onclick="addBlock('heading')">+ Heading</button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ── OUTPUT ── -->
+<div class="output-box" id="output-box">
+    <span class="panel-label">Next Steps</span>
+    <p class="output-step">1. The file has been downloaded. Move it into your <b>/posts/</b> folder.</p>
+    <p class="output-step">2. Add this line to the <b>POST_FILES</b> array in <b>main.js</b>:</p>
+    <div class="manifest-code" id="manifest-code"></div>
+    <p class="output-step" id="image-reminder" style="display:none; color:#7eb8f7;">
+        3. You added image blocks — make sure all referenced image files are placed in your <b>/images/</b> folder.
+    </p>
+</div>
+
+<script>
+    // ── STATE ──
+    let currentFormat = 'a';
+    let blocks = [];       // Array of { id, type, ...fields }
+    let blockCounter = 0;
+
+    // ── FORMAT SWITCH ──
+    function setFormat(fmt) {
+        currentFormat = fmt;
+        document.getElementById('format-a').style.display = fmt === 'a' ? 'flex' : 'none';
+        document.getElementById('format-b').style.display = fmt === 'b' ? 'flex' : 'none';
+        document.getElementById('btn-format-a').classList.toggle('active', fmt === 'a');
+        document.getElementById('btn-format-b').classList.toggle('active', fmt === 'b');
+        document.getElementById('format-hint').textContent = fmt === 'a'
+            ? 'Paragraphs separated by blank lines.'
+            : 'Build with text, images, quotes, and headings.';
+    }
+
+    // ── BLOCK BUILDER ──
+    function addBlock(type) {
+        const id = ++blockCounter;
+        blocks.push({ id, type, text: '', src: '', caption: '', position: 'center' });
+        renderBlocks();
+
+        // Focus the first input of the new block
+        setTimeout(() => {
+            const el = document.querySelector(`[data-id="${id}"] textarea, [data-id="${id}"] input`);
+            if (el) el.focus();
+        }, 50);
+    }
+
+    function removeBlock(id) {
+        blocks = blocks.filter(b => b.id !== id);
+        renderBlocks();
+    }
+
+    function moveBlock(id, dir) {
+        const idx = blocks.findIndex(b => b.id === id);
+        const swapIdx = idx + dir;
+        if (swapIdx < 0 || swapIdx >= blocks.length) return;
+        [blocks[idx], blocks[swapIdx]] = [blocks[swapIdx], blocks[idx]];
+        renderBlocks();
+    }
+
+    function setPosition(id, pos) {
+        const b = blocks.find(b => b.id === id);
+        if (b) { b.position = pos; renderBlocks(); }
+    }
+
+    function syncField(id, field, value) {
+        const b = blocks.find(b => b.id === id);
+        if (b) b[field] = value;
+    }
+
+    function autoResize(ta) {
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+    }
+
+    function renderBlocks() {
+        const list = document.getElementById('blocks-list');
+
+        list.innerHTML = blocks.map((b, idx) => {
+            const isFirst = idx === 0;
+            const isLast  = idx === blocks.length - 1;
+
+            let bodyHtml = '';
+
+            if (b.type === 'text') {
+                bodyHtml = `
+                    <textarea class="block-textarea" 
+                        placeholder="Write paragraph text here...&#10;&#10;Double blank line = new paragraph."
+                        oninput="syncField(${b.id},'text',this.value); autoResize(this)"
+                        onchange="syncField(${b.id},'text',this.value)"
+                    >${escapeAttr(b.text)}</textarea>
+                    <span class="hint">Use blank lines to split into multiple paragraphs.</span>
+                `;
+            }
+
+            if (b.type === 'quote') {
+                bodyHtml = `
+                    <textarea class="block-textarea" rows="2"
+                        placeholder="Enter pull quote text..."
+                        oninput="syncField(${b.id},'text',this.value); autoResize(this)"
+                        onchange="syncField(${b.id},'text',this.value)"
+                    >${escapeAttr(b.text)}</textarea>
+                `;
+            }
+
+            if (b.type === 'heading') {
+                bodyHtml = `
+                    <textarea class="block-textarea" rows="1" style="min-height:36px"
+                        placeholder="Section heading..."
+                        oninput="syncField(${b.id},'text',this.value); autoResize(this)"
+                        onchange="syncField(${b.id},'text',this.value)"
+                    >${escapeAttr(b.text)}</textarea>
+                `;
+            }
+
+            if (b.type === 'image') {
+                const positions = ['left', 'center', 'right'];
+                const posButtons = positions.map(p => `
+                    <button class="${b.position === p ? 'active' : ''}" 
+                            onclick="setPosition(${b.id}, '${p}')">${p}</button>
+                `).join('');
+
+                bodyHtml = `
+                    <div class="block-input-row">
+                        <label>File path</label>
+                        <input type="text" 
+                            placeholder="./images/your-image.jpg"
+                            value="${escapeAttr(b.src)}"
+                            oninput="syncField(${b.id},'src',this.value)"
+                            onchange="syncField(${b.id},'src',this.value)">
+                    </div>
+                    <div class="block-input-row">
+                        <label>Caption</label>
+                        <input type="text" 
+                            placeholder="Optional caption text"
+                            value="${escapeAttr(b.caption)}"
+                            oninput="syncField(${b.id},'caption',this.value)"
+                            onchange="syncField(${b.id},'caption',this.value)">
+                    </div>
+                    <div class="block-input-row">
+                        <label>Position</label>
+                        <div class="pos-selector">${posButtons}</div>
+                    </div>
+                    <span class="hint">Place image file in your /images/ folder. Path is relative to index.html.</span>
+                `;
+            }
+
+            return `
+                <div class="block-row" data-id="${b.id}">
+                    <div class="block-row-header">
+                        <span class="block-type-badge type-${b.type}">${b.type}</span>
+                        <div class="block-row-actions">
+                            ${!isFirst ? `<button onclick="moveBlock(${b.id}, -1)">↑</button>` : ''}
+                            ${!isLast  ? `<button onclick="moveBlock(${b.id},  1)">↓</button>` : ''}
+                            <button class="del-btn" onclick="removeBlock(${b.id})">✕</button>
+                        </div>
+                    </div>
+                    <div class="block-row-body">${bodyHtml}</div>
+                </div>
+            `;
+        }).join('');
+
+        // Restore textarea heights after re-render
+        document.querySelectorAll('.block-textarea').forEach(ta => autoResize(ta));
+    }
+
+    // Prevent HTML injection in rendered attributes
+    function escapeAttr(str) {
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    // ── GENERATE JSON ──
+    function generate() {
+        const title    = document.getElementById('title').value.trim();
+        const category = document.getElementById('category').value.trim();
+        const videoUrl = document.getElementById('videoUrl').value.trim();
+
+        if (!title || !category) {
+            alert('Please fill in Title and Category.');
+            return;
+        }
+
+        let postData = { title, category, videoUrl };
+        let hasImages = false;
+
+        if (currentFormat === 'a') {
+            const raw = document.getElementById('content-simple').value;
+            if (!raw.trim()) { alert('Please write some content.'); return; }
+            postData.content = raw;
+
+        } else {
+            if (blocks.length === 0) { alert('Add at least one content block.'); return; }
+
+            postData.paragraphs = blocks.map(b => {
+                if (b.type === 'text')    return { type: 'text',    text: b.text };
+                if (b.type === 'quote')   return { type: 'quote',   text: b.text };
+                if (b.type === 'heading') return { type: 'heading', text: b.text };
+                if (b.type === 'image') {
+                    hasImages = true;
+                    return { type: 'image', src: b.src, caption: b.caption, position: b.position };
+                }
+                return null;
+            }).filter(Boolean);
+        }
+
+        // Filename slug
+        const filename = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.json';
+
+        // Download
+        const blob = new Blob([JSON.stringify(postData, null, 4)], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+
+        // Show output
+        const box = document.getElementById('output-box');
+        box.classList.add('visible');
+        document.getElementById('manifest-code').innerText = `"${filename}",`;
+        document.getElementById('image-reminder').style.display = hasImages ? 'block' : 'none';
+
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // Start with one text block in Format B
+    addBlock('text');
+</script>
 </body>
 </html>
