@@ -1,0 +1,41 @@
+{
+    "title": "Digital Futures",
+    "category": "Trends, partnerships, futures thinking",
+    "videoUrl": "https://youtu.be/uUuzFzwD2wg?si=yctAaACfxXijkBp3",
+    "paragraphs": [
+        {
+            "type": "text",
+            "text": "Stepping into the tenth week of our Information Systems Honours programme, the atmosphere shifted from creative exploration to rigorous critical analysis. Up until this point, our journey through this module has been a whirlwind of ideation, empathy mapping, and rapid prototyping. We successfully pivoted our project focus from spaza shops to the highly operational world of student run campus barbershops. We understood their time constraints and designed a lightweight booking prototype. However, the lecture this week served as a massive reality check. We have reached Phase Four, the stage where we must finalise our prototype specification and articulate a robust sustainability and scaling logic. The central message of the week was incredibly clear: the test of a good information system is not whether it works in a controlled academic laboratory, but whether it holds up on the ground, with real users, under real pressures, over real time.\n"
+        },
+        {
+            "type": "image",
+            "src": "images\\image4.png",
+            "caption": "",
+            "position": "center"
+        },
+        {
+            "type": "text",
+            "text": "Translating our prototype into a formal technical specification forced us to apply the five design principles discussed in class. The most challenging of these principles is the requirement to design for constraints rather than ideal conditions. When writing the technical architecture for our barbershop platform, it is very tempting to assume that the students will always have access to university Wi Fi and fully charged smartphones. But showing genuine Information Systems thinking means acknowledging the harsh infrastructural realities of South Africa. This is exactly why we had previously decided to drop our data heavy augmented reality features in favour of absolute simplicity. Our final specification heavily prioritises an offline first architecture. We are designing a system that caches daily booking schedules locally on the device, ensuring that a barber can still see their appointments even when load shedding knocks out the campus network. We are not just building software; we are engineering resilience.\n\nBeyond the technical build, the lecture forced me to confront the brutal reality of sustainability. In the technology startup world, sustainability is often confused with securing enough venture capital to burn through while acquiring users. However, in the context of the informal economy, sustainability is entirely about creating a viable, long lasting value exchange. Our lecturer explicitly warned us about the hidden costs of digital systems, such as data consumption, device memory, and the friction of user training. If our booking system requires too much airtime to operate or constantly crashes low end smartphones, it will simply be deleted. For our project to be truly sustainable, the value it provides in reducing operational chaos and optimising time slots must vastly outweigh the tiny infrastructural costs it imposes on the user. Furthermore, sustainability in this environment is heavily dependent on trust. Because informal campus businesses operate largely on reputation and relationships, any platform that mismanages data or complicates the payment process will immediately fail.\n"
+        },
+        {
+            "type": "image",
+            "src": "images\\image5.png",
+            "caption": "",
+            "position": "center"
+        },
+        {
+            "type": "text",
+            "text": "This deep dive into sustainability naturally led to our discussions on scaling logic and ecosystem fit. Scaling a digital platform in the informal sector is incredibly complex because you cannot simply force your users to adopt a completely new, parallel ecosystem. The strongest scaling strategies do not disrupt existing networks; they integrate seamlessly into them. For our campus barbers, their existing ecosystem heavily relies on WhatsApp statuses, residence notice boards, and word of mouth. If we want our booking system to grow from a few early adopters to the majority of the campus, our scaling logic must leverage these existing habits. Instead of forcing clients to download a massive standalone application, our strategy involves lightweight web links that can be easily shared directly through WhatsApp groups. By achieving a tight strategic fit with the tools the students are already using daily, we dramatically lower the barrier to entry and increase the likelihood of widespread adoption.\n\nThe ultimate test for our project as we approach submission is the So What test. As the lecture slides highlighted, we must constantly ask ourselves why our specific approach matters. Does it truly align with the strategic intent we set out to achieve? For me, the answer is a resounding yes. We started this project wanting to build something impactful. Through the painful but necessary process of pivoting, letting go of complex features, and grounding our decisions in real user data, we have arrived at a solution that actually respects the people it aims to serve. We are not just parachuting a generic corporate scheduling tool into a campus residence. We have designed a highly specific, context aware digital intervention that addresses the exact mutual time scarcity faced by student barbers and their clients.\n"
+        },
+        {
+            "type": "image",
+            "src": "images\\image6.png",
+            "caption": "",
+            "position": "center"
+        },
+        {
+            "type": "text",
+            "text": "Reflecting on Week ten, and indeed the entire Honours project journey so far, my understanding of what it means to be a systems architect has been fundamentally reshaped. I have learned that the best technical designs are entirely useless without a grounded business model and a clear path to adoption. An elegant codebase cannot save a product that ignores the economic realities of its users. Moving forward, I am committed to taking these final lessons on sustainability and ecosystem fit into my future professional career. I now understand that true Information Systems expertise is not just about bringing a brilliant idea to life; it is about ensuring that the idea can actually survive, scale, and empower communities in the messy, unpredictable reality of the real world."
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "title": "Prototyping, Technical Choices, and Trade-offs",
+    "category": "Prototype refinement and technical specification",
+    "videoUrl": "https://youtu.be/3LtQWxhqjqI?si=TRsfvIb05Ssy0uKa",
+    "paragraphs": [
+        {
+            "type": "text",
+            "text": "Stepping into the ninth week of our Information Systems Honours programme, our focus shifted heavily towards prototype refinement and technical specification. Up until this point, we had spent our time in the conceptual realm, conducting community fieldwork, building empathy maps, and ideating solutions for the operational frustrations of student run campus barbershops. We understood the human problem, but this week demanded that we translate those abstract ideas into concrete technical designs and prepare for actual user testing. Our lecture heavily emphasised the final stages of the design thinking process, particularly the absolute necessity of gathering fast insight. We learned that prototype testing should never be delayed; it must happen early and often to ensure our technical choices actually align with user realities. This transition from theory to architecture forced me to confront a profound reality: every single technological choice we make is not merely an engineering decision, but a deeply strategic and ethical trade off.\n"
+        },
+        {
+            "type": "image",
+            "src": "images\\image1.png",
+            "caption": "",
+            "position": "center"
+        },
+        {
+            "type": "text",
+            "text": "During class, we discussed the ten key user questions necessary for evaluating a prototype, which are divided into Goal Match, Usability, and Adoption. One crucial usability question asks whether any features completely distract the user or get ignored. This specific classroom insight fundamentally guided our most difficult technical trade off: the final decision to completely abandon our augmented reality virtual try on feature. From a purely technical standpoint, building an integration where clients could use their phone cameras to preview hairstyles was an exciting challenge. However, when viewed through the lens of the Digital Transformation Strategy for Africa, which advocates for inclusive, digitally enabled socio economic development rather than just importing flashy Western trends, the feature felt entirely out of place. We realised that retaining that feature meant sacrificing our core objective of operational efficiency. We would have gained a highly marketable, visually impressive application, but it would have distracted from the core booking task and ultimately excluded the very users we were trying to help due to massive data consumption.\n\nThis brings us to the profound ethical trade offs inherent in technical design. When we write a technical specification, we are effectively writing the rules of inclusion. If we design a booking system that requires a continuous, high speed internet connection to synchronize data, we are making an implicit ethical choice to exclude campus barbers and students during load shedding. We are penalizing them for systemic infrastructural failures that are entirely out of their control. In class, we were taught to ask if our target market truly feels like the product was designed specifically for them. Designing for the South African context requires an architectural obsession with resilience. Therefore, we had to pivot our technical design towards an offline first capability, ensuring that local data caching allows the barbers to view their daily schedules even when the network drops. By making this technical choice, we gain system reliability and preserve the digital dignity of the user. What we lose is the luxury of absolute real time data synchronization. Accepting a slight delay in data syncing is a necessary ethical trade off to ensure the system feels like it was genuinely built for their constrained reality.\n\n"
+        },
+        {
+            "type": "image",
+            "src": "images\\image2.png",
+            "caption": "",
+            "position": "center"
+        },
+        {
+            "type": "text",
+            "text": "Furthermore, the actual process of preparing our prototypes highlighted the tension between custom software engineering and rapid deployment. In a traditional corporate environment, a systems architect might spend months hard coding a bespoke platform to ensure absolute control over every single variable. However, our lecture stressed that we must not wait to gather user feedback. To properly test adoption and advocacy, we need to quickly find out what would make the barbers use the system frequently. Because of this, our strategic reality dictated a completely different approach. We chose to utilize rapid artificial intelligence app builders and simple wireframing tools populated with dummy data. We lose the granular control and intellectual property ownership that comes with building a proprietary codebase from scratch. But what we gain is speed, agility, and the immediate ability to conduct the testing phase we outlined in class. By putting a lightweight, functional concept into the hands of the barbers quickly, we gather authentic user feedback that is infinitely more valuable than a perfectly coded but untested backend system.\n\nWe also had to deeply consider the ethical implications of data storage and privacy in our technical choices. Informal businesses operate largely on trust and personal relationships. If we decided to integrate a complex, cloud based predictive algorithm to manage their clients, we would have to harvest significant amounts of their operational data. Gaining predictive analytics means losing the simplicity of data sovereignty. Given the deep mistrust of formal institutions often found in informal sectors, we opted for a decentralized, minimal data approach. We specify that the system only captures the absolute minimum information required to secure a booking slot. We lose the ability to monetize large datasets, but we gain the trust of the community, which is the only true currency that matters when attempting to drive digital adoption.\n\nReflecting on Week nine, my perspective on software architecture has completely transformed. I have come to realize that technical specification is not an exercise in demonstrating coding prowess; it is an exercise in profound empathy and strategic restraint. The most elegant technical designs are rarely the most complex; they are the ones that gracefully answer the core usability and adoption questions we debated in class. I am walking away from this week with a refined understanding of my responsibility as an Information Systems professional. I must constantly weigh the ethical and strategic trade offs of my technical choices, ensuring that I am building resilient, inclusive systems that act as genuine catalysts for digital transformation in the chaotic, vibrant reality of the South African informal economy.\n"
+        },
+        {
+            "type": "image",
+            "src": "images\\image3.png",
+            "caption": "",
+            "position": "center"
+        }
+    ]
+}
