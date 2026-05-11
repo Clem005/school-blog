@@ -13,7 +13,10 @@ const POST_FILES = [
     "week5.json",
     "week6.json",
     "week7.json",
-    "week8.json"
+    "week8.json",
+    "week9.json",
+    "week10.json",
+    "week11.json"
     
 ];
 
